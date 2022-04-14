@@ -1,0 +1,30 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+env:
+  CFLAGS: -g
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: apt update
+      run: sudo apt update
+    - name: apt install
+      run: sudo apt install -y --no-install-recommends build-essential libxinerama-dev libx11-dev libxft-dev valgrind
+    - name: Build
+      run: make
+    #- name: X
+    #  uses: GabrielBB/xvfb-action@v1
+    #  with:
+    #    run: valgrind --leak-check=full ./
+    #- uses: actions/upload-artifact@v2
+    #  with:
+    #      name: binout
+    #      path: ./herbe
