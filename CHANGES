@@ -1,0 +1,6 @@
+config.def.h
+  font
+  rules (eg "Firefox" vs "firefox")
+
+config.mk
+  CFLAGS
