@@ -27,6 +27,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 #include <unistd.h>
 #include <sys/types.h>
 #include <sys/wait.h>
@@ -269,6 +270,7 @@ static Display *dpy;
 static Drw *drw;
 static Monitor *mons, *selmon;
 static Window root, wmcheckwin;
+time_t lastquit;
 
 /* configuration, allows nested code to access above variables */
 #include "config.h"
@@ -1286,7 +1288,16 @@ propertynotify(XEvent *e)
 void
 quit(const Arg *arg)
 {
-	running = 0;
+    if (arg->i == 0) {
+        lastquit = time(NULL);
+        return;
+    }
+    if (arg->i == 7) {
+        time_t now = time(NULL);
+        if (now >= lastquit + 1 && now <= lastquit + 4) {
+            running = 0;
+        }
+    }
 }
 
 Monitor *
