@@ -2112,11 +2112,12 @@ view(const Arg *arg)
 {
 	int i;
 	unsigned int tmptag;
+	unsigned int effecttag = arg->ui & TAGMASK;
 
-	if ((arg->ui & TAGMASK) == selmon->tagset[selmon->seltags])
-		return;
+	if (effecttag == selmon->tagset[selmon->seltags])
+        effecttag = 0; // =tab
 	selmon->seltags ^= 1; /* toggle sel tagset */
-	if (arg->ui & TAGMASK) {
+	if (effecttag) {
 		selmon->tagset[selmon->seltags] = arg->ui & TAGMASK;
 		selmon->pertag->prevtag = selmon->pertag->curtag;
 
